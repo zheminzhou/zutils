@@ -1,6 +1,6 @@
 import sys
 
-def readFastaFile (filename, lengthOnly = False, listOutput = False):
+def readFasta (filename, lengthOnly = False, listOutput = False):
     if listOutput == False and lengthOnly == False:
         seq_len = {}
         with open(filename, 'r') as fasfile:
@@ -42,7 +42,7 @@ def readFastaFile (filename, lengthOnly = False, listOutput = False):
                     seq_len[-1][1] += len(line.strip())
         return seq_len
 
-def writeFastaFile (fasta, file = '', lineWidth = -1, order = None) :
+def writeFasta (fasta, file = '', lineWidth = -1, order = None) :
     """Write a list or dict of fasta sequences into stdout or a file
               writeFastaFile (fasta, file = '', lineWidth = -1, order = None)
     """
@@ -74,6 +74,5 @@ def writeFastaFile (fasta, file = '', lineWidth = -1, order = None) :
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-    x = readFastaFile(filename, lengthOnly=True)
-    writeFastaFile(fasta, file='', lineWidth=-1, order=None)
-    writeFastaFile(x, '', lineWidth = 100)
+    x = readFasta(filename)
+    writeFasta(x, file='x', lineWidth=100)
