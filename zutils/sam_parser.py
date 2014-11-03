@@ -1,5 +1,9 @@
 ascii_numbers = [chr(num) for num in range(48,58)]
 
+base_complement = {'a':'t', 't':'a', 'c':'g', 'g':'c', 'A':'T', 'T':'A', 'C':'G', 'G':'C'}
+def complement (seq) :
+	return ([base_complement.get(b, 'N') for b in seq])
+
 def map_parser (item6, filter = None) :
 	mlen = 0
 	fragments = []
@@ -75,8 +79,14 @@ def iterPairReader (file, split = True) :
 				else :
 					reads[item[0]] = item		
 
+def getFastq (read) :
+	direct = read_orientation(read[1])
+	rid = 1 if int(read[1]) & 0x0040 > 0 else 2
+	if direct == 1:
+		return ['@%s/%d' % (read[0], rid), read[9], '+', read[10]]
+	else :
+		return ['@%s/%d' % (read[0], rid),''.join(complement(read[9][::-1])), '+', ''.join(read[10][::-1])]
 if __name__ == '__main__':
 	import sys
 	for t in iterPairReader(sys.argv[1]):
-		x = map_len(t[0][5])
-		print x
+		print getFastq(t[0])
